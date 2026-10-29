@@ -2,7 +2,7 @@
 FROM eclipse-temurin:25-jdk AS build
 WORKDIR /app
 COPY . .
-RUN ./gradlew bootJar --no-daemon -q
+RUN chmod +x gradlew && ./gradlew bootJar --no-daemon -q
 
 # Runtime stage
 FROM eclipse-temurin:25-jre
