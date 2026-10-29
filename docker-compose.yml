@@ -1,0 +1,34 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8081:8080"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=reservation_db
+      - DB_USERNAME=reservation_user
+      - DB_PASSWORD=reservation_pass
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: on-failure
+
+  db:
+    image: postgres:18
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=reservation_db
+      - POSTGRES_USER=reservation_user
+      - POSTGRES_PASSWORD=reservation_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U reservation_user -d reservation_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:

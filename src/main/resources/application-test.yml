@@ -1,0 +1,10 @@
+# Test profile: datasource is auto-configured by @ServiceConnection in TestContainerConfiguration
+# No need to set URL/username/password manually
+
+spring:
+  flyway:
+    enabled: true
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
